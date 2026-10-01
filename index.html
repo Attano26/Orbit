@@ -1748,12 +1748,19 @@ const _renderStage=renderStage;renderStage=function(){_renderStage();decorateBus
 /* theme */
 const themeBtn=$('#theme');
 themeBtn.onclick=()=>{const root=document.documentElement,cur=root.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'),next=cur==='dark'?'light':'dark';
-  const apply=()=>{root.setAttribute('data-theme',next);ls.set('ob-theme',next)};
+  const apply=()=>{root.setAttribute('data-theme',next);ls.set('ob-theme',next);themeIcon()};
   if(!document.startViewTransition||matchMedia('(prefers-reduced-motion: reduce)').matches){apply();return}
   const r=themeBtn.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2;
   root.style.setProperty('--rx',x+'px');root.style.setProperty('--ry',y+'px');root.style.setProperty('--rr',Math.hypot(Math.max(x,innerWidth-x),Math.max(y,innerHeight-y))+'px');
-  root.classList.add('vt');document.startViewTransition(apply).finished.finally(()=>root.classList.remove('vt'))};
+  root.classList.add('vt');const vt=document.startViewTransition(apply);vt.ready.catch(()=>{}); /* a skipped reveal (e.g. background tab) still switches the theme */
+  vt.finished.catch(()=>{}).finally(()=>root.classList.remove('vt'))};
 const th=ls.get('ob-theme');if(th==='dark'||th==='light')document.documentElement.setAttribute('data-theme',th);
+/* the button shows where a click takes you: a sun while dark, a moon while light */
+const MOON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.9A9 9 0 1 1 11.1 3a7 7 0 0 0 9.9 9.9z"/></svg>';
+const SUN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/></svg>';
+function themeIcon(){const dark=(document.documentElement.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'))==='dark';
+  themeBtn.innerHTML=dark?SUN:MOON;themeBtn.setAttribute('aria-label',dark?'Switch to light appearance':'Switch to dark appearance');themeBtn.title=dark?'Light appearance':'Dark appearance'}
+themeIcon();matchMedia('(prefers-color-scheme: dark)').addEventListener('change',themeIcon);
 
 function measureStick(){const b=$('#board');if(!b)return;const top=b.getBoundingClientRect().top+scrollY;document.documentElement.style.setProperty('--stick',Math.round(top)+'px')}
 addEventListener('resize',measureStick);new ResizeObserver(measureStick).observe($('.topbar'));measureStick();
