@@ -33,7 +33,7 @@ The one-time database script (`setup.sql`) is **not** in this repo, because it c
 
 In Supabase, go to **Authentication → Users**.
 
-- **Add someone.** Click Add user, enter their email and a password, and tick Auto Confirm User.
+- **Add someone.** Click Add user → Create new user, enter their email and a temporary password, and tick Auto Confirm User. The first time they sign in, Orbit asks for their name and their own password, and links them to their name on the board.
 - **Remove someone.** Delete the user. They can't sign in again.
 - **Forgotten password.** The person clicks Forgot password? on the sign-in screen and gets an email with a reset link.
 

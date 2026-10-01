@@ -161,6 +161,10 @@ main{max-width:1360px;margin:0 auto;padding-inline:24px;padding-block:20px 64px}
 .combo:focus-within{box-shadow:inset 0 0 0 2px var(--accent);background:var(--surface)}
 .combo input{flex:1 1 90px;min-width:70px;border:0;background:none;height:24px;padding:0 4px;font-size:13px}
 .combo input:focus{outline:none}
+.combo.filled input{flex:1 1 12px;min-width:12px}
+/* fields side by side share one height, chips start on the same line */
+.fgrid > .fld{display:flex;flex-direction:column}
+.fgrid > .fld > .combo{flex:1 1 auto;align-content:flex-start}
 .tok{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 4px 0 8px;border-radius:999px;background:var(--surface);box-shadow:0 0 0 .5px var(--sep-strong);font-size:12px;font-weight:500;max-width:100%}
 .tok i{width:7px;height:7px;border-radius:50%;flex:0 0 7px}
 .tok .av{margin-left:-4px}
@@ -329,6 +333,97 @@ body.gated{overflow:hidden}
 .gbox .btn{height:42px;justify-content:center;font-size:14px;border-radius:12px}
 .glink{border:0;background:none;color:var(--accent);font-size:13px;cursor:pointer;padding:6px}
 .gmsg{min-height:20px;margin-top:10px;font-size:13px;color:var(--label-2)}
+/* first sign-in: who you are, and your own password */
+.gbox #g-hello{text-align:left;gap:8px}
+.glab{font-size:12px;font-weight:600;color:var(--label-2);margin-top:6px}
+.gnote{font-size:12px;color:var(--label-3);margin:-4px 0 2px}
+#h-pw{display:flex;flex-direction:column;gap:8px}
+.gbox .inp[readonly]{color:var(--label-2);box-shadow:none}
+#g-hello .btn{margin-top:8px}
+/* you, top right: initials plus a dot that is green while the board is live */
+.me{position:relative;width:32px;height:32px;border-radius:50%;border:0;padding:0;cursor:pointer;flex:0 0 auto;display:grid;place-items:center;
+  color:#fff;font-size:12px;font-weight:700;letter-spacing:.02em;background:var(--accent);transition:transform .3s var(--spring)}
+.me:hover{transform:scale(1.06)} .me:active{transform:scale(.94)}
+.me::after{content:'';position:absolute;right:-2px;bottom:-2px;width:10px;height:10px;border-radius:50%;background:var(--label-3);box-shadow:0 0 0 2px var(--surface);transition:background .3s}
+.me.on::after{background:var(--green-c)}
+body.cloud .live{display:none}
+/* who else is on the board right now */
+.crew{display:inline-flex;align-items:center;height:30px;padding:0 10px 0 3px;border:0;border-radius:999px;background:var(--fill-2);color:var(--label-2);font-size:12px;font-weight:500;cursor:pointer;flex:0 0 auto;transition:transform .3s var(--spring)}
+.crew:hover{color:var(--label)} .crew:active{transform:scale(.96)}
+.crew .av{width:24px;height:24px;flex-basis:24px;font-size:9.5px;margin-left:-7px;box-shadow:0 0 0 2px var(--surface)}
+.crew .av:first-child{margin-left:0}
+.av.more{background:var(--gray-c)}
+.crew .n{display:inline-flex;align-items:center;gap:5px;margin-left:7px;white-space:nowrap}
+.crew .n::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--green-c)}
+@media(max-width:760px){.crew .n{display:none}.crew{padding-right:3px}}
+@media(max-width:480px){.crew .av:nth-child(n+3){display:none}}
+/* an idea someone else has open: a soft glow in their colour, their face and typing dots in the card footer */
+.card.busy{box-shadow:var(--card-shadow),0 0 0 1.5px color-mix(in srgb,var(--busy) 75%,transparent),0 10px 28px -12px color-mix(in srgb,var(--busy) 70%,transparent)}
+.editing{margin-left:auto;display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 8px 0 2px;border-radius:999px;background:color-mix(in srgb,var(--busy) 18%,transparent);flex:0 0 auto}
+.editing .av{width:18px;height:18px;flex-basis:18px;font-size:7.5px;box-shadow:0 0 0 1.5px var(--surface)}
+.editing .av+.av{margin-left:-11px}
+.editing .dots{display:inline-flex;align-items:center;gap:2.5px}
+.editing .dots i{width:4px;height:4px;border-radius:50%;background:var(--busy);animation:typing 1.2s ease-in-out infinite}
+.editing .dots i:nth-child(2){animation-delay:.15s}.editing .dots i:nth-child(3){animation-delay:.3s}
+@keyframes typing{0%,60%,100%{opacity:.35;transform:none}30%{opacity:1;transform:translateY(-2px)}}
+.busy-note{display:flex;align-items:center;gap:10px;margin:0 44px 14px 0;padding:8px 12px 8px 8px;border-radius:12px;background:color-mix(in srgb,var(--busy) 12%,transparent);box-shadow:inset 0 0 0 .5px color-mix(in srgb,var(--busy) 45%,transparent);font-size:12.5px;color:var(--label-2)}
+.busy-note .editing{margin-left:0}
+/* inspiration images */
+.sech small{font-weight:400;font-size:11.5px;color:var(--label-3);white-space:nowrap}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin-top:10px;padding:3px;margin-inline:-3px;border-radius:14px;transition:background .2s,box-shadow .2s}
+.gal.drop{background:var(--accent-bg);box-shadow:inset 0 0 0 1.5px var(--accent)}
+.th{position:relative;aspect-ratio:1;margin:0;border-radius:12px;overflow:hidden;background:var(--fill-2);cursor:zoom-in;box-shadow:inset 0 0 0 .5px var(--sep)}
+.th:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.th img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s var(--spring)}
+.th:hover img{transform:scale(1.04)}
+.th-x{position:absolute;top:6px;right:6px;width:24px;height:24px;padding:0;border:0;border-radius:50%;display:grid;place-items:center;background:rgba(0,0,0,.55);color:#fff;cursor:pointer;opacity:0;transition:opacity .15s,background .15s;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.th-x svg{width:11px;height:11px}
+.th:hover .th-x,.th:focus-within .th-x,.th-x.armed{opacity:1}
+.th-x.armed{background:var(--red-c)}
+@media (hover:none){.th-x{opacity:1}}
+.th.add{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;background:none;box-shadow:none;border:1.5px dashed var(--sep-strong);color:var(--label-2);font-size:12px;font-weight:500;transition:color .15s,border-color .15s}
+.th.add:hover{color:var(--accent);border-color:var(--accent)}
+.th.add svg{width:18px;height:18px;margin-bottom:2px}
+.th.add small{font-size:10.5px;color:var(--label-3);font-weight:400}
+.th.up{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:default}
+.th.up figcaption{max-width:88%;font-size:10.5px;color:var(--label-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.spin{width:20px;height:20px;border-radius:50%;border:2px solid var(--sep-strong);border-top-color:var(--accent);animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#lb{position:fixed;inset:0;z-index:3000;display:grid;place-items:center;padding:60px 72px 28px;background:rgba(0,0,0,.88);opacity:0;transition:opacity .2s}
+#lb.on{opacity:1}
+#lb figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:14px;max-width:100%;min-height:0}
+#lb img{max-width:100%;max-height:calc(100dvh - 170px);object-fit:contain;border-radius:10px;box-shadow:0 24px 70px rgba(0,0,0,.55);background:#111}
+#lb figcaption{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 14px;color:rgba(255,255,255,.72);font-size:12.5px;text-align:center}
+#lb figcaption b{color:#fff;font-weight:600;max-width:60vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#lb a{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 11px;border-radius:999px;background:rgba(255,255,255,.14);color:#fff;text-decoration:none}
+#lb a:hover{background:rgba(255,255,255,.24)} #lb a svg{width:12px;height:12px}
+.lb-x,.lb-nav{position:absolute;width:40px;height:40px;padding:0;border:0;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.14);color:#fff;cursor:pointer;transition:background .15s}
+.lb-x:hover,.lb-nav:hover{background:rgba(255,255,255,.26)}
+.lb-x svg,.lb-nav svg{width:16px;height:16px}
+.lb-x{top:14px;right:14px}.lb-nav{top:50%;margin-top:-20px}.lb-nav.prev{left:16px}.lb-nav.next{right:16px}
+@media(max-width:640px){#lb{padding:64px 12px 84px}.lb-nav{top:auto;bottom:22px;margin:0}.lb-nav.prev{left:calc(50% - 52px)}.lb-nav.next{right:calc(50% - 52px)}}
+.busy-note b{color:var(--label);font-weight:600}
+/* profile sheet */
+.prof-head{display:flex;align-items:center;gap:14px;margin:2px 0 4px;min-width:0}
+.prof-head > div{min-width:0}
+.prof-head h2{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.prof-head .em{color:var(--label-2);font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.prof-head .em b{font-weight:500;color:var(--green)}
+.av.xl{width:56px;height:56px;flex-basis:56px;font-size:20px;box-shadow:none}
+.mystats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
+.mystat{padding:10px 12px;border-radius:14px;background:var(--fill-2)}
+.mystat b{display:block;font-size:22px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.mystat span{font-size:12px;color:var(--label-2)}
+.mylist{display:flex;flex-direction:column;gap:2px;margin-top:10px}
+.myrow{display:flex;align-items:center;gap:10px;width:100%;padding:8px 10px;border:0;border-radius:10px;background:none;color:inherit;font:inherit;font-size:13px;text-align:left;cursor:pointer}
+.myrow:hover{background:var(--fill-2)}
+.myrow i{width:8px;height:8px;border-radius:50%;flex:0 0 8px}
+.myrow span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.myrow small{font-size:12px;color:var(--label-2);white-space:nowrap}
+.set .inp[readonly]{color:var(--label-2);box-shadow:none}
+.prow{display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap}
+.pmsg{font-size:12.5px;color:var(--label-2)}
+.pmsg.bad{color:var(--red)} .pmsg.ok{color:var(--green)}
 .span2{grid-column:span 2}
 @media(max-width:1000px){.span2{grid-column:auto}}
 .lg{display:flex;flex-direction:column;gap:6px;font-size:12.5px;min-width:130px;flex:1}
@@ -403,6 +498,21 @@ table.ct .who{display:flex;align-items:center;gap:8px;font-weight:500}
 .scrim.on .sheet{transform:none;opacity:1}
 .x{position:sticky;float:right;top:0;margin:-8px -10px 0 8px;width:32px;height:32px;border-radius:50%;border:0;cursor:pointer;display:grid;place-items:center;color:var(--label-2);background:var(--glass-bg);box-shadow:inset 0 0 0 .5px var(--glass-line),inset 0 1px 0 var(--glass-rim);transition:transform .3s var(--spring);z-index:2}
 .x:hover{transform:scale(1.08);color:var(--label)} .x svg{width:14px;height:14px}
+/* sheets: close button pinned, footer pinned, and only the middle scrolls (with its own scrollbar) */
+.sheet.framed{display:flex;flex-direction:column;overflow:hidden;padding:0}
+.sheet.framed > .x{position:absolute;float:none;top:20px;right:18px;margin:0;z-index:5}
+.s-head{flex:0 0 auto;padding:20px 64px 10px 26px;border-bottom:.5px solid transparent;transition:border-color .2s}
+.s-head.lined{border-bottom-color:var(--sep-strong)}
+.s-head .s-title{width:100%;margin:0 0 0 -8px}
+.s-head.set{padding-bottom:4px}
+.s-head > .prof-head{margin:0}
+.s-body{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:8px 26px 22px;scrollbar-width:thin;scrollbar-color:var(--sep-strong) transparent}
+.s-body::-webkit-scrollbar{width:12px}
+.s-body::-webkit-scrollbar-track{background:transparent;margin:10px 0}
+.s-body::-webkit-scrollbar-thumb{background:var(--sep-strong);border-radius:12px;border:4px solid transparent;background-clip:padding-box}
+.s-body > .set{padding-bottom:0}
+.sheet.framed > .s-foot{position:static;flex:0 0 auto;margin:0;padding:14px 26px 18px;background:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+.sheet.framed > .busy-note{flex:0 0 auto;margin:18px 64px 0 26px}
 .s-title{display:block;width:calc(100% - 48px);border:0;background:none;font:700 24px/1.25 var(--font-d);letter-spacing:-.02em;padding:4px 8px;border-radius:10px;margin-left:-8px}
 .s-title:focus{outline:none;background:var(--fill-2)}
 .s-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px}
@@ -418,7 +528,8 @@ table.ct .who{display:flex;align-items:center;gap:8px;font-weight:500}
 .fgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 12px}
 .fgrid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
 .fgrid.four{grid-template-columns:repeat(4,minmax(0,1fr))}
-@media(max-width:640px){.fgrid,.fgrid.four{grid-template-columns:repeat(2,minmax(0,1fr))}.sheet{padding:22px 16px 0;border-radius:22px;max-height:calc(100dvh - 20px)}.scrim{padding:10px 8px}.s-foot{margin:22px -16px 0;padding:12px 16px 14px}}
+@media(max-width:640px){.fgrid,.fgrid.four{grid-template-columns:repeat(2,minmax(0,1fr))}.sheet{padding:22px 16px 0;border-radius:22px;max-height:calc(100dvh - 20px)}.scrim{padding:10px 8px}.s-foot{margin:22px -16px 0;padding:12px 16px 14px}
+  .s-head{padding:16px 56px 8px 16px}.s-body{padding:8px 16px 18px}.sheet.framed > .s-foot{padding:12px 16px 14px}.sheet.framed > .x{top:12px;right:12px}.sheet.framed > .busy-note{margin:14px 56px 0 16px}}
 @media(max-width:420px){.fgrid,.fgrid.two,.fgrid.four{grid-template-columns:minmax(0,1fr)}}
 .inp{width:100%;height:34px;border:0;border-radius:10px;padding:0 11px;font-size:13px;background:var(--fill-2);box-shadow:inset 0 0 0 .5px var(--sep)}
 .inp:focus{outline:none;box-shadow:inset 0 0 0 2px var(--accent);background:var(--surface)}
@@ -427,8 +538,10 @@ textarea.inp{height:auto;min-height:64px;padding:9px 11px;line-height:1.5;resize
 .sech .ln{flex:1;height:.5px;background:var(--sep-strong)}
 .more{margin-top:18px;width:100%;display:flex;align-items:center;gap:12px;padding:12px 14px;border:0;border-radius:14px;cursor:pointer;text-align:left;background:var(--fill-2);box-shadow:inset 0 0 0 .5px var(--sep);transition:background .15s}
 .more:hover{background:var(--fill)}
-.more .mg{width:30px;height:30px;border-radius:9px;background:var(--accent-bg);color:var(--accent);display:grid;place-items:center;flex:0 0 30px}
-.more .mg svg{width:16px;height:16px}
+/* one icon tile for the approval banner and More info: same size, centred, no border */
+.ico{width:30px;height:30px;flex:0 0 30px;border-radius:9px;display:grid;place-items:center;background:var(--accent-bg);color:var(--accent)}
+.ico svg{width:16px;height:16px;display:block}
+.more .ico{background:var(--accent-bg);color:var(--accent)}
 .more b{display:block;font-size:13.5px}
 .more small{display:block;font-size:12px;color:var(--label-2)}
 .more .chev{margin-left:auto;width:16px;height:16px;color:var(--label-3);transition:transform .35s var(--spring)}
@@ -437,12 +550,18 @@ textarea.inp{height:auto;min-height:64px;padding:9px 11px;line-height:1.5;resize
 .s-foot{position:sticky;bottom:0;display:flex;align-items:center;gap:8px;margin:22px -26px 0;padding:14px 26px 18px;flex-wrap:wrap;background:linear-gradient(180deg,transparent,var(--sheet-b) 30%);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:.5px solid var(--sep)}
 .set{padding-bottom:22px}
 .s-foot .when{font-size:11.5px;color:var(--label-3);margin-right:auto}
-.lane{display:flex;gap:10px;align-items:flex-start;margin-top:14px;padding:10px 12px;border-radius:12px;font-size:12.5px;line-height:1.45}
-.lane b{display:block;font-size:12.5px}
+.lane{display:flex;gap:12px;align-items:center;margin-top:14px;padding:12px 14px;border-radius:14px;line-height:1.4;box-shadow:inset 0 0 0 .5px var(--sep)}
+.lane > div{min-width:0}
+.lane b{display:block;font-size:13.5px}
+.lane small{display:block;font-size:12px;color:var(--label)}
+.lane .ico{background:var(--fill);color:var(--label-2)}
+.lane.green .ico{background:color-mix(in srgb,var(--green-c) 18%,transparent);color:var(--green)}
+.lane.amber .ico{background:color-mix(in srgb,var(--orange-c) 18%,transparent);color:var(--orange)}
+.lane.red .ico{background:color-mix(in srgb,var(--red-c) 18%,transparent);color:var(--red)}
 .lane.green{background:var(--green-bg)} .lane.green b{color:var(--green)}
 .lane.amber{background:var(--orange-bg)} .lane.amber b{color:var(--orange)}
 .lane.red{background:var(--red-bg)} .lane.red b{color:var(--red)}
-.lane svg{width:16px;height:16px;flex:0 0 16px;margin-top:1px}
+
 
 /* settings */
 .set h2{font-size:24px;font-weight:700;letter-spacing:-.022em}
@@ -525,6 +644,8 @@ requestAnimationFrame(frame);
   <button class="btn" id="new" type="button" title="New idea (N)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8 3.5v9M3.5 8h9"/></svg><span>New idea</span></button>
   <button class="iconbtn" id="gear" type="button" aria-label="Settings" title="Settings — people, labels, AI tools, tech, repositories"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2.2"/><circle cx="10" cy="17" r="2.2"/></svg></button>
   <button class="iconbtn" id="theme" type="button" aria-label="Switch appearance" title="Appearance"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.9A9 9 0 1 1 11.1 3a7 7 0 0 0 9.9 9.9z"/></svg></button>
+  <button class="crew" id="crew" type="button" hidden aria-label="Who’s on the board now"></button>
+  <button class="me" id="me" type="button" hidden aria-label="Your profile"></button>
 </header>
 
 <main>
@@ -549,10 +670,14 @@ requestAnimationFrame(frame);
 <script type="application/json" id="orbit-data">{}</script>
 <div id="gate" hidden><div class="gbox">
   <svg class="glogo" viewBox="-4 -4 108 108" aria-hidden="true"><use href="#orbit-logo"/></svg>
-  <h1>Orbit</h1><p class="gsub">Sign in to the team's idea board</p>
+  <h1 id="g-title">Orbit</h1><p class="gsub" id="g-sub">Sign in to the team's idea board</p>
   <form id="g-in" autocomplete="on"><input class="inp" id="g-email" type="email" placeholder="Email" autocomplete="username" required><input class="inp" id="g-pass" type="password" placeholder="Password" autocomplete="current-password" required>
     <button class="btn" id="g-go" type="submit">Sign in</button><button class="glink" id="g-forgot" type="button">Forgot password?</button></form>
   <form id="g-reset" hidden><input class="inp" id="g-new" type="password" placeholder="New password (8+ characters)" autocomplete="new-password" required><button class="btn" type="submit">Set new password</button></form>
+  <form id="g-hello" hidden autocomplete="on"><label class="glab" for="h-name">Your name</label><input class="inp" id="h-name" placeholder="How the team knows you" autocomplete="name" required>
+    <label class="glab" for="h-email">Email</label><input class="inp" id="h-email" type="email" autocomplete="username" readonly>
+    <div id="h-pw"><label class="glab" for="h-pass">Your own password</label><p class="gnote">Replaces the one you were given. 8 or more characters.</p><input class="inp" id="h-pass" type="password" placeholder="New password" autocomplete="new-password"><input class="inp" id="h-pass2" type="password" placeholder="Type it again" autocomplete="new-password"></div>
+    <button class="btn" id="h-go" type="submit">Continue to the board</button><button class="glink" id="h-out" type="button">Not you? Sign out</button></form>
   <div class="gmsg" id="g-msg" role="status"></div></div></div>
 <div id="toast" role="status"><span id="toast-t"></span><button id="toast-b" type="button"></button></div>
 
@@ -600,6 +725,10 @@ const I={
   laptop:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><rect x="3" y="3.5" width="10" height="7" rx="1"/><path d="M1.5 12.5h13"/></svg>',
   sync:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 6.5A5 5 0 0 0 3.8 4.8M3 9.5a5 5 0 0 0 9.2 1.7"/><path d="M3.5 2.5v2.6h2.6M12.5 13.5v-2.6H9.9"/></svg>',
   info:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="6"/><path d="M8 7.2v3.8M8 5v.1"/></svg>',
+  img:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="12" height="10" rx="2"/><circle cx="6" cy="6.5" r="1.2"/><path d="m2.5 12 3.5-3.5 2.5 2.5 2-2 3 3"/></svg>',
+  left:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m10 3-5 5 5 5"/></svg>',
+  right:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 3 5 5-5 5"/></svg>',
+  out:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2.5h4.5V7M13.5 2.5 7.5 8.5M11.5 9.5v3a1 1 0 0 1-1 1h-7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1h3"/></svg>',
   shield:'<svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5 13.5 3.8v3.9c0 3.3-2.4 5.6-5.5 6.8C4.9 13.3 2.5 11 2.5 7.7V3.8z"/></svg>'
 };
 const RUNIC={offline:I.laptop,online:I.globe,hybrid:I.sync};
@@ -683,13 +812,20 @@ function setLive(on){const l=$('#live');l.classList.toggle('on',on);$('span',l).
 function cloudFail(e){console.warn(e);toast(/JWT|auth|401/i.test(e.message||'')?'Your sign-in expired. Sign in again.':'That change did not save. Check your connection and try again.')}
 async function cloudStart(){
   const sb=CLOUD.sb=window.supabase.createClient(ORBIT_CLOUD.url,ORBIT_CLOUD.key,{auth:{persistSession:true,autoRefreshToken:true}});
-  sb.auth.onAuthStateChange((ev,session)=>{if(ev==='PASSWORD_RECOVERY')showGate('reset');else if(ev==='SIGNED_OUT'){CLOUD.me=null;showGate('in')}});
+  sb.auth.onAuthStateChange((ev,session)=>{if(ev==='PASSWORD_RECOVERY')showGate('reset');
+    else if(ev==='SIGNED_OUT'){presenceStop();CLOUD.me=null;CLOUD.live=false;CLOUD.fresh=false;$('#h-name').value='';setMe();if(S.open==='__profile')closeSheet(true);showGate('in')}
+    else if(session&&session.user&&CLOUD.me){CLOUD.me=session.user;setMe()}});
   const {data:{session}}=await sb.auth.getSession();
   if(!session){showGate('in');return}
   await cloudLoad(session);
 }
-async function cloudLoad(session){
-  const sb=CLOUD.sb;CLOUD.me=session.user;hideGate();
+function cloudLoad(session){
+  CLOUD.me=session.user;CLOUD.loading=cloudFetch();
+  if(meta().onboarded)hideGate();else showGate('hello');setMe();
+  return CLOUD.loading;
+}
+async function cloudFetch(){
+  const sb=CLOUD.sb;
   const m={};COLL.forEach(c=>m[c]=new Map());
   for(let from=0;;from+=1000){const {data:rows,error}=await sb.from('items').select('collection,id,data').range(from,from+999);
     if(error){toast('Could not load the board: '+error.message);break}
@@ -699,14 +835,140 @@ async function cloudLoad(session){
   CLOUD.ch=sb.channel('orbit-items').on('postgres_changes',{event:'*',schema:'public',table:'items'},p=>{
     const r=p.new&&p.new.collection?p.new:p.old;if(!r||!data[r.collection])return;
     if(p.eventType==='DELETE')data[r.collection].delete(r.id);else data[r.collection].set(r.id,{...p.new.data,id:p.new.id});
-    scheduleRender()}).subscribe();
+    scheduleRender()}).subscribe(st=>{CLOUD.live=st==='SUBSCRIBED';setMe()});
+  presenceStart();
 }
-function setMe(){const l=$('#live');if(store.mode!=='cloud'||!l)return;const em=CLOUD.me&&CLOUD.me.email||'';
-  l.classList.add('on');$('span',l).textContent='Live · '+em.split('@')[0];l.title='Signed in as '+em+' — click to sign out';l.style.cursor='pointer';
-  l.onclick=e=>menu(l,null,null,v=>{if(v==='out')CLOUD.sb.auth.signOut()},{list:[{v:'me',n:em,h:'signed in'},{v:'out',n:'Sign out'}]})}
+/* ---------- who's live: Supabase Realtime presence on a private channel (signed-in team only, see setup.sql step 6) ---------- */
+CLOUD.peers=[];CLOUD.pr=null;CLOUD.prSent='';
+function presenceStart(){const sb=CLOUD.sb;if(!CLOUD.me)return;if(CLOUD.pr)sb.removeChannel(CLOUD.pr);CLOUD.prSent='';
+  const ch=CLOUD.pr=sb.channel('orbit-presence',{config:{private:true,presence:{key:CLOUD.me.id}}});
+  ch.on('presence',{event:'sync'},()=>{const st=ch.presenceState();
+    CLOUD.peers=Object.keys(st).map(k=>({key:k,...(st[k]&&st[k][0]||{})})).filter(p=>p.name);renderCrew();decorateBusy()})
+    .subscribe(s=>{if(s==='SUBSCRIBED')presenceSync(true)});
+}
+function presenceStop(){if(CLOUD.pr&&CLOUD.sb)CLOUD.sb.removeChannel(CLOUD.pr);CLOUD.pr=null;CLOUD.peers=[];CLOUD.prSent='';renderCrew()}
+/* tell the others who you are and which idea you have open; only sent when it changes */
+function presenceSync(force){if(!CLOUD.pr||!CLOUD.me)return;
+  const me={name:myName()||String(CLOUD.me.email||'').split('@')[0],ini:myInitials(),color:myColor(),editing:S.open&&byId(S.open)?S.open:null};
+  const j=JSON.stringify(me);if(!force&&j===CLOUD.prSent)return;CLOUD.prSent=j;CLOUD.pr.track(me)}
+const others=()=>CLOUD.peers.filter(p=>!CLOUD.me||p.key!==CLOUD.me.id);
+const pav=(p,cls)=>`<span class="av ${cls||''}" style="background:${esc(p.color||hashCol(p.name))}">${esc(p.ini||initials(p.name))}</span>`;
+function renderCrew(){const el=$('#crew');if(!el)return;const o=others();el.hidden=!o.length||!CLOUD.me;if(el.hidden)return;
+  el.innerHTML=o.slice(0,3).map(p=>pav(p)).join('')+(o.length>3?`<span class="av more">+${o.length-3}</span>`:'')+`<span class="n">${o.length+1} live</span>`;
+  el.title=`${o.length+1} on the board now: you, `+o.map(p=>p.name).join(', ');
+  el.onclick=()=>{const doing=p=>{const t=p.editing&&byId(p.editing);const s=t?(t.title||'Untitled idea'):'on the board';return s.length>24?s.slice(0,23)+'…':s};
+    const all=[{name:'You',ini:myInitials(),color:myColor(),editing:S.open&&byId(S.open)?S.open:null},...o];
+    menu(el,null,'-',v=>{const p=all[+v];if(p&&p.editing&&byId(p.editing))openIdea(p.editing)},{list:all.map((p,i)=>({v:String(i),n:p.name.split(' ')[0],av:pav(p,'sm'),h:doing(p)}))})}}
+/* a card someone else has open glows softly in their colour, and its footer shows their face with typing dots */
+function decorateBusy(){
+  $$('.editing').forEach(x=>x.remove());$$('.card.busy').forEach(c=>{c.classList.remove('busy');c.style.removeProperty('--busy')});
+  const by={};others().forEach(p=>{if(p.editing)(by[p.editing]=by[p.editing]||[]).push(p)});
+  for(const id in by){const c=$(`.card[data-id="${CSS.escape(id)}"]`),f=c&&$('.c-foot',c);if(!f)continue;const L=by[id],who=L.map(p=>p.name.split(' ')[0]).join(' and ');
+    c.classList.add('busy');c.style.setProperty('--busy',L[0].color||hashCol(L[0].name));
+    f.insertAdjacentHTML('beforeend',`<span class="editing" title="${esc(who)} ${L.length>1?'are':'is'} editing this now" aria-label="${esc(who)} editing now">${L.slice(0,3).map(p=>pav(p)).join('')}<span class="dots"><i></i><i></i><i></i></span></span>`)}
+  const sh=$('#sheet'),old=sh&&$('.busy-note',sh);if(old)old.remove();
+  const here=S.open&&by[S.open];if(sh&&here){const x=$('.x',sh);x&&x.insertAdjacentHTML('afterend',`<div class="busy-note" style="--busy:${esc(here[0].color||hashCol(here[0].name))}"><span class="editing">${here.slice(0,3).map(p=>pav(p)).join('')}<span class="dots"><i></i><i></i><i></i></span></span><span><b>${esc(here.map(p=>p.name.split(' ')[0]).join(' and '))}</b> ${here.length>1?'are':'is'} editing this too. Changes save live, so the last edit to a field wins.</span></div>`)}
+}
+
+/* every sheet: close button and footer stay put, everything else goes into one scrolling body */
+/* the title (or the Settings / profile heading) is pinned beside the close button, so nothing scrolls under it */
+function frameSheet(sh){if(!sh)return;const keep=n=>n.nodeType===1&&(n.classList.contains('x')||n.classList.contains('s-foot'));
+  const first=[...sh.children].find(n=>!keep(n)&&!n.classList.contains('busy-note'));
+  const top=first&&(first.classList.contains('s-title')?first:first.classList.contains('set')?first.firstElementChild:null);
+  const head=document.createElement('div');head.className='s-head'+(top&&top!==first?' set':'');if(top)head.appendChild(top);
+  const body=document.createElement('div');body.className='s-body';
+  [...sh.childNodes].forEach(n=>{if(!keep(n)&&!n.classList?.contains('busy-note'))body.appendChild(n)});
+  const foot=$(':scope > .s-foot',sh);sh.insertBefore(head,foot);sh.insertBefore(body,foot);sh.classList.add('framed');
+  body.addEventListener('scroll',()=>head.classList.toggle('lined',body.scrollTop>2),{passive:true})}
+
+/* ---------- inspiration images: private Storage bucket, 5 per idea, 5 MB each (bucket + limits: setup.sql step 7) ---------- */
+const BUCKET='orbit-images',MAX_IMGS=5,MAX_MB=5,IMG_TYPES=['image/png','image/jpeg','image/webp','image/gif'];
+const urlCache=new Map();
+async function signUrls(paths){const need=paths.filter(p=>{const c=urlCache.get(p);return !c||c.exp<Date.now()+120e3});
+  if(need.length){const {data:d,error}=await CLOUD.sb.storage.from(BUCKET).createSignedUrls(need,3600);
+    if(!error&&d)d.forEach(x=>{if(x.signedUrl)urlCache.set(x.path,{u:x.signedUrl,exp:Date.now()+3600e3})})}
+  return paths.map(p=>(urlCache.get(p)||{}).u||'')}
+const UP={m:new Map(),list(id){return this.m.get(id)||[]},add(id,u){this.m.set(id,[...this.list(id),u])},done(id,u){this.m.set(id,this.list(id).filter(x=>x!==u))}};
+const fmtSize=b=>b<1048576?Math.max(1,Math.round(b/1024))+' KB':(b/1048576).toFixed(1)+' MB';
+function imgError(e){const m=e&&e.message||'';
+  return /bucket not found/i.test(m)?'Image storage isn’t set up yet. Run step 7 of setup.sql.':/exceed|too large|payload/i.test(m)?'That image is over '+MAX_MB+' MB.':/mime|type/i.test(m)?'Only PNG, JPG, WebP and GIF images can be added.':
+    /row-level|policy|unauthori|403/i.test(m)?'Upload refused. The idea may already have '+MAX_IMGS+' images, or your sign-in expired.':'Upload failed: '+m}
+function drawGal(force){const g=$('#s-gal'),id=S.open,t=id&&byId(id);if(!g||!t)return;
+  const imgs=t.images||[],up=UP.list(id),key=JSON.stringify([id,imgs.map(x=>x.path),up.length,readOnly]);
+  if(!force&&g.dataset.key===key)return;g.dataset.key=key;
+  const room=MAX_IMGS-imgs.length-up.length;$('#s-gal-n').textContent=`${imgs.length} of ${MAX_IMGS} · up to ${MAX_MB} MB each`;
+  g.innerHTML=imgs.map((x,i)=>`<figure class="th" data-i="${i}" tabindex="0" title="${esc(x.name)}"><img alt="${esc(x.name)}" decoding="async">${readOnly?'':`<button class="th-x" type="button" data-rmimg="${esc(x.path)}" aria-label="Remove ${esc(x.name)}">${I.x}</button>`}</figure>`).join('')
+    +up.map(u=>`<figure class="th up"><span class="spin"></span><figcaption>${esc(u.name)}</figcaption></figure>`).join('')
+    +(room>0&&!readOnly?`<label class="th add"><input type="file" accept="${IMG_TYPES.join(',')}" multiple hidden>${I.plus}<span>Add image</span><small>or drop / paste</small></label>`:'');
+  if(!imgs.length&&readOnly)g.innerHTML='<p class="note" style="margin:0">No images yet.</p>';
+  signUrls(imgs.map(x=>x.path)).then(us=>$$('.th img',g).forEach((im,i)=>{if(us[i])im.src=us[i]}));
+  const inp=$('input[type=file]',g);if(inp)inp.onchange=()=>{addImages(id,[...inp.files]);inp.value=''};
+  $$('.th[data-i]',g).forEach(f=>{f.onclick=e=>{if(!e.target.closest('.th-x'))openLightbox(id,+f.dataset.i)};f.onkeydown=e=>{if(e.key==='Enter'&&e.target===f)openLightbox(id,+f.dataset.i)}});
+  $$('[data-rmimg]',g).forEach(b=>b.onclick=e=>{e.stopPropagation();
+    if(!b.classList.contains('armed')){b.classList.add('armed');b.title='Click again to remove';setTimeout(()=>{if(b.isConnected)b.classList.remove('armed')},2500);return}
+    removeImage(id,b.dataset.rmimg)});
+  g.ondragover=e=>{if([...e.dataTransfer.types].includes('Files')&&!readOnly){e.preventDefault();g.classList.add('drop')}};
+  g.ondragleave=e=>{if(!g.contains(e.relatedTarget))g.classList.remove('drop')};
+  g.ondrop=e=>{e.preventDefault();g.classList.remove('drop');addImages(id,[...e.dataTransfer.files])}}
+async function addImages(id,files){if(readOnly||!files.length||store.mode!=='cloud')return;const t=byId(id);if(!t)return;
+  const ok=[],bad=[];
+  for(const f of files){if(!IMG_TYPES.includes(f.type))bad.push(`${f.name||'That file'} isn’t a PNG, JPG, WebP or GIF`);
+    else if(f.size>MAX_MB*1048576)bad.push(`${f.name||'That image'} is ${fmtSize(f.size)}. The limit is ${MAX_MB} MB`);else ok.push(f)}
+  const room=MAX_IMGS-(t.images||[]).length-UP.list(id).length;
+  if(ok.length>room){bad.unshift(room>0?`Only ${room} more image${room===1?'':'s'} fit. Each idea holds ${MAX_IMGS}`:`This idea already has ${MAX_IMGS} images. Remove one first`);ok.splice(Math.max(room,0))}
+  if(bad.length)toast(bad[0]+(bad.length>1?` (and ${bad.length-1} more)`:'')+'.');
+  await Promise.all(ok.map(async f=>{const u={name:f.name&&f.name!=='image.png'?f.name:'Pasted image'};UP.add(id,u);drawGal();
+    const ext=f.type.split('/')[1].replace('jpeg','jpg'),path=`${id}/${uid('im')}.${ext}`;
+    const {error}=await CLOUD.sb.storage.from(BUCKET).upload(path,f,{contentType:f.type,upsert:false,cacheControl:'3600'});
+    UP.done(id,u);if(error){toast(imgError(error));drawGal();return}
+    const cur=byId(id);if(!cur){CLOUD.sb.storage.from(BUCKET).remove([path]);return}
+    patch(id,{images:[...(cur.images||[]),{path,name:u.name,size:f.size,type:f.type,at:now(),by:myPerson()}]},true);drawGal()}))}
+function removeImage(id,path){const t=byId(id);if(!t||readOnly)return;
+  patch(id,{images:(t.images||[]).filter(x=>x.path!==path)},true);urlCache.delete(path);drawGal();
+  CLOUD.sb.storage.from(BUCKET).remove([path]).then(({error})=>{if(error)console.warn(error)})}
+/* full-screen viewer: arrows to step through, Esc or a click outside to close */
+function openLightbox(id,i){const imgs=(byId(id)||{}).images||[];if(!imgs.length)return;let k=Math.max(0,Math.min(i,imgs.length-1));
+  let lb=$('#lb');if(lb&&lb._close)lb._close(true);
+  if(!lb){lb=document.createElement('div');lb.id='lb';lb.hidden=true;lb.setAttribute('role','dialog');lb.setAttribute('aria-modal','true');lb.setAttribute('aria-label','Image');document.body.appendChild(lb)}
+  const show=async()=>{const x=imgs[k],[u]=await signUrls([x.path]),who=x.by&&item('people',x.by)?nameOf('people',x.by):'';
+    lb.innerHTML=`<button class="lb-x" type="button" aria-label="Close">${I.x}</button>
+      ${imgs.length>1?`<button class="lb-nav prev" type="button" aria-label="Previous image">${I.left}</button><button class="lb-nav next" type="button" aria-label="Next image">${I.right}</button>`:''}
+      <figure><img src="${esc(u)}" alt="${esc(x.name)}"><figcaption><b>${esc(x.name)}</b><span>${k+1} of ${imgs.length} · ${fmtSize(x.size||0)}${who?' · added by '+esc(who):''}</span><a href="${esc(u)}" target="_blank" rel="noopener">${I.out}Open original</a></figcaption></figure>`;
+    $('.lb-x',lb).onclick=()=>close();const p=$('.prev',lb),n=$('.next',lb);if(p)p.onclick=()=>go(-1);if(n)n.onclick=()=>go(1);$('.lb-x',lb).focus()};
+  const go=d=>{k=(k+d+imgs.length)%imgs.length;show()};
+  const key=e=>{if(e.key==='Escape'){e.preventDefault();e.stopPropagation();close()}else if(e.key==='ArrowLeft'){e.stopPropagation();go(-1)}else if(e.key==='ArrowRight'){e.stopPropagation();go(1)}};
+  const close=now=>{document.removeEventListener('keydown',key,true);lb._close=null;lb.classList.remove('on');if(now){lb.hidden=true;lb.innerHTML='';return}setTimeout(()=>{if(!lb._close){lb.hidden=true;lb.innerHTML=''}},200)};
+  lb._close=close;lb.onclick=e=>{if(e.target===lb||e.target.tagName==='FIGURE')close()};
+  document.addEventListener('keydown',key,true);lb.hidden=false;show();requestAnimationFrame(()=>lb.classList.add('on'))}
+/* paste an image while an idea is open */
+document.addEventListener('paste',e=>{const id=S.open;if(!id||!byId(id)||!$('#s-gal'))return;
+  const fs=[...(e.clipboardData&&e.clipboardData.files||[])];if(!fs.some(f=>f.type.startsWith('image/')))return;e.preventDefault();addImages(id,fs)});
+/* ---------- you: name and board person live in your sign-in's user_metadata, so no table changes ---------- */
+const meta=()=>CLOUD.me&&CLOUD.me.user_metadata||{};
+const myName=()=>String(meta().name||'').trim();
+const myPerson=()=>{const id=meta().person;return id&&item('people',id)?id:null};
+const myInitials=()=>myName()?initials(myName()):String(CLOUD.me&&CLOUD.me.email||'?')[0].toUpperCase();
+const myColor=()=>hashCol(myName()||(CLOUD.me&&CLOUD.me.email)||'');
+const pwError=e=>{const m=e&&e.message||'';return /different from the old/i.test(m)?'Choose a password different from your current one.':/weak|at least/i.test(m)?'That password is too weak. Use 8 or more characters, mixing letters and numbers.':m||'That didn’t work. Check your connection and try again.'};
+/* the board person you are: keep the one already linked, else the person with your name, else a new one (made only after the save succeeds) */
+function personFor(name){const cur=myPerson(),same=items('people').find(x=>x.name.toLowerCase()===name.toLowerCase());
+  if(same)return {id:same.id};if(cur)return {id:cur,rename:true};return {id:uid('pe'),make:true}}
+function applyPerson(p,name){if(p.make)store.put('people',{id:p.id,name,created:now()});else if(p.rename){const x=item('people',p.id);if(x&&x.name!==name)store.put('people',{...x,name})}render()}
+function setMe(){const b=$('#me');if(store.mode!=='cloud'||!b)return;document.body.classList.add('cloud');
+  if(!CLOUD.me){b.hidden=true;return}
+  const em=CLOUD.me.email||'';b.hidden=false;b.textContent=myInitials();b.style.background=myColor();b.classList.toggle('on',!!CLOUD.live);
+  b.title=(myName()?myName()+' · ':'')+em+(CLOUD.live?' — live':' — connecting…');b.onclick=openProfile;presenceSync()}
 function showGate(mode){const g=$('#gate');g.hidden=false;document.body.classList.add('gated');
-  $('#g-in').hidden=mode!=='in';$('#g-reset').hidden=mode!=='reset';$('#g-msg').textContent='';
-  setTimeout(()=>{const f=mode==='in'?$('#g-email'):$('#g-new');f&&f.focus()},50)}
+  $('#g-in').hidden=mode!=='in';$('#g-reset').hidden=mode!=='reset';$('#g-hello').hidden=mode!=='hello';$('#g-msg').textContent='';
+  $('#g-title').textContent=mode==='hello'?'Welcome to Orbit':'Orbit';
+  $('#g-sub').textContent=mode==='hello'?'Tell the team who you are. You can change this later from your profile.':mode==='reset'?'Choose a new password':'Sign in to the team\'s idea board';
+  if(mode==='hello'){const em=CLOUD.me&&CLOUD.me.email||'';$('#h-email').value=em;$('#h-pw').hidden=!!CLOUD.fresh;
+    if(!$('#h-name').value)$('#h-name').value=myName();
+    if(!$('#h-name').value&&CLOUD.loading)CLOUD.loading.then(()=>{if(!$('#h-name').value)$('#h-name').value=guessName(em)})}
+  setTimeout(()=>{const f=mode==='in'?$('#g-email'):mode==='hello'?($('#h-name').value?$('#h-pass'):$('#h-name')):$('#g-new');f&&!f.closest('[hidden]')&&f.focus()},50)}
+/* kiran.tripathy4@… → “Kiran”, when Kiran is already a person on the board */
+function guessName(em){const words=String(em).split('@')[0].toLowerCase().split(/[^a-z]+/).filter(Boolean);
+  const hit=items('people').find(p=>words.includes(String(p.name).toLowerCase().split(/\s+/)[0]));return hit?hit.name:''}
 function hideGate(){$('#gate').hidden=true;document.body.classList.remove('gated')}
 $('#g-in').addEventListener('submit',async e=>{e.preventDefault();const b=$('#g-go'),msg=$('#g-msg');b.disabled=true;msg.textContent='Signing in…';
   const {data:d,error}=await CLOUD.sb.auth.signInWithPassword({email:$('#g-email').value.trim(),password:$('#g-pass').value});b.disabled=false;
@@ -716,7 +978,18 @@ $('#g-forgot').onclick=async()=>{const em=$('#g-email').value.trim();if(!em){$('
   const {error}=await CLOUD.sb.auth.resetPasswordForEmail(em,{redirectTo:location.origin+location.pathname});$('#g-msg').textContent=error?error.message:'Check your inbox for a link to set a new password.'};
 $('#g-reset').addEventListener('submit',async e=>{e.preventDefault();const p=$('#g-new').value;if(p.length<8){$('#g-msg').textContent='Use at least 8 characters.';return}
   const {data:d,error}=await CLOUD.sb.auth.updateUser({password:p});if(error){$('#g-msg').textContent=error.message;return}
-  const {data:{session}}=await CLOUD.sb.auth.getSession();toast('Password updated');await cloudLoad(session)});
+  CLOUD.fresh=true;const {data:{session}}=await CLOUD.sb.auth.getSession();toast('Password updated');await cloudLoad(session)});
+/* first sign-in: name (linked to a board person) and, unless they just chose one by reset link, their own password */
+$('#g-hello').addEventListener('submit',async e=>{e.preventDefault();const msg=$('#g-msg'),b=$('#h-go');
+  const name=$('#h-name').value.trim().replace(/\s+/g,' ');if(!name){msg.textContent='Add your name so the team knows who you are.';return}
+  const upd={};if(!CLOUD.fresh){const p=$('#h-pass').value;if(p.length<8){msg.textContent='Your password needs 8 or more characters.';return}
+    if(p!==$('#h-pass2').value){msg.textContent='The two passwords don’t match.';return}upd.password=p}
+  b.disabled=true;msg.textContent='Saving…';await CLOUD.loading;
+  const p=personFor(name);upd.data={...meta(),name,person:p.id,onboarded:true};
+  const {data:d,error}=await CLOUD.sb.auth.updateUser(upd);b.disabled=false;
+  if(error){msg.textContent=pwError(error);return}
+  CLOUD.me=d.user;applyPerson(p,name);$('#h-pass').value=$('#h-pass2').value='';msg.textContent='';hideGate();setMe();toast('Welcome, '+name.split(' ')[0])});
+$('#h-out').onclick=()=>CLOUD.sb.auth.signOut();
 addEventListener('beforeunload',e=>{if(store.mode==='file'&&FILE.dirty){e.preventDefault();e.returnValue=''}});
 document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'&&store.mode==='file'){e.preventDefault();FILE.save()}},true);
 
@@ -752,7 +1025,10 @@ function patch(id,p,quiet){if(readOnly)return;const t=byId(id);if(!t)return;
   if(p.status&&p.status!==t.status)p.doneAt=p.status==='done'?now():null;
   const n={...t,...p,updated:now()};store.put('tasks',n);if(!quiet)render();else scheduleRender()}
 let rt;function scheduleRender(){clearTimeout(rt);rt=setTimeout(render,30)}
-function remove(id){if(readOnly)return;const t=byId(id);store.del('tasks',id);render();return t}
+function remove(id){if(readOnly)return;const t=byId(id);store.del('tasks',id);render();
+  /* its images go once the Undo window has passed, unless the idea came back */
+  const paths=(t&&t.images||[]).map(x=>x.path);if(paths.length&&store.mode==='cloud')setTimeout(()=>{if(!byId(id))CLOUD.sb.storage.from(BUCKET).remove(paths)},8000);
+  return t}
 function toggleDone(id){const t=byId(id);if(!t)return;const to=t.status==='done'?'todo':'done';const L=colIdeas(to);
   patch(id,{status:to,order:to==='done'?((L[0]?L[0].order:1024)-1024):((L.length?L[L.length-1].order:0)+1024)});if(to==='done')toast('Marked done','Undo',()=>patch(id,{status:'todo'}))}
 function migrate(){ /* older board: single tag text → label */
@@ -800,7 +1076,7 @@ function render(){
   const all=ideas(),open=all.filter(t=>t.status!=='done');
   $('#sub').innerHTML=all.length?`<span><b>${open.length}</b> open</span><span><b>${all.filter(t=>t.status==='doing').length}</b> in progress</span><span><b>${open.filter(t=>quad(t)&&quad(t).k==='win').length}</b> quick wins</span><span><b>${all.filter(t=>missing(t).length).length}</b> need details</span>${readOnly?'<span>View only</span>':''}`:'Every idea in one place, scored and ranked';
   renderFilters();renderStage();
-  if(S.open&&!byId(S.open))closeSheet(true);
+  if(S.open&&!String(S.open).startsWith('__')&&!byId(S.open))closeSheet(true); /* __settings / __profile are not ideas */
 }
 function renderFilters(){
   const el=$('#filters');if(!ideas().length){el.innerHTML='';return}
@@ -829,6 +1105,7 @@ function cardHtml(t){const dn=t.status==='done',m=missing(t);
   ${aspHtml(t)?`<div class="asp">${aspHtml(t)}</div>`:''}
   <div class="c-foot">${t.pitchedBy&&item('people',t.pitchedBy)?`<span class="by" title="Pitched by ${esc(nameOf('people',t.pitchedBy))}">${av(t.pitchedBy,'sm')}<span>${esc(nameOf('people',t.pitchedBy))}</span></span>`:''}
    ${as.length?`<span class="avs" title="Working on it: ${esc(as.map(id=>nameOf('people',id)).join(', '))}">${as.slice(0,3).map(id=>av(id,'sm')).join('')}</span>`:''}
+   ${(t.images||[]).length?`<span class="sd" title="${t.images.length} inspiration image${t.images.length===1?'':'s'}">${I.img}${t.images.length}</span>`:''}
    ${t.start?`<span class="sd">${I.cal}${fmtStart(t.start)}</span>`:''}
    ${m.length&&!dn?`<span class="miss" title="Missing: ${esc(m.join(', '))}">${m.length} missing</span>`:''}</div></article>`}
 function addHtml(k,list){return readOnly?'':`<div class="add">${I.plus}<input data-add="${k}" id="add-${list?'l-':''}${k}" placeholder="Add an idea" autocomplete="off" aria-label="Add an idea to ${CMAP[k].n}"></div>`}
@@ -1045,6 +1322,7 @@ function combo(el,c,multi,get,set,ph){
   const draw=()=>{const v=get();const ids=multi?(v||[]):(v?[v]:[]);
     el.innerHTML=ids.filter(id=>item(c,id)).map(id=>`<span class="tok">${c==='people'?av(id,'sm'):c==='labels'?`<i style="background:${labelColor(id)}"></i>`:''}<span>${esc(nameOf(c,id))}</span>${readOnly?'':`<button type="button" data-rm="${id}" aria-label="Remove ${esc(nameOf(c,id))}">×</button>`}</span>`).join('')+
       (readOnly?'':`<input type="text" autocomplete="off" placeholder="${ids.length&&!multi?'':esc(ph)}" aria-label="${esc(LISTS[c].n)}">`);
+    el.classList.toggle('filled',!multi&&ids.length>0); /* a chosen single value keeps its typing box on the same line */
     const inp=$('input',el);if(!inp)return;
     inp.onfocus=()=>show(inp);inp.oninput=()=>show(inp);
     inp.onkeydown=e=>{if(popKey(e))return;if(e.key==='Backspace'&&!inp.value){const v2=get();if(multi&&v2&&v2.length){set(v2.slice(0,-1));draw();focus()}else if(!multi&&v2){set(null);draw();focus()}}
@@ -1075,10 +1353,11 @@ function openIdea(id){
    ${fld('summary','What is the idea, and what problem does it solve?',`<textarea class="inp" id="s-summary" rows="2" placeholder="One or two sentences" ${readOnly?'readonly':''}>${esc(t0.summary||'')}</textarea>`,{req:1,for:'s-summary'})}
    <div class="fgrid">${fld('pitchedBy','Pitched by','<div class="combo" id="c-pitched"></div>',{req:1})}${fld('sponsor','Sponsor','<div class="combo" id="c-sponsor"></div>',{hint:'senior backing it'})}${fld('assignees','Working on it','<div class="combo" id="c-assign"></div>')}</div>
    <div class="fgrid two">${fld('labels','Labels','<div class="combo" id="c-labels"></div>')}${fld('start','Tentative start',`<input class="inp" type="date" id="s-start" value="${esc(t0.start||'')}" ${readOnly?'readonly':''}>`,{hint:'optional',for:'s-start'})}</div>
+   ${store.mode==='cloud'?`<div class="sech">Inspiration<span class="ln"></span><small id="s-gal-n"></small></div><div class="gal" id="s-gal"></div>`:''}
    <div class="sech">Assessment<span class="ln"></span></div>
    <div class="fgrid four">${['impact','effort','risk','cost'].map(k=>fld(k,k==='cost'?'Cost to build and run':F[k].n,pickBtn('s-'+k,k,t0[k]),{req:1})).join('')}</div>
    <div id="s-lane"></div>
-   <button class="more" id="s-more" type="button" aria-expanded="${S.more}"><span class="mg">${I.info}</span><span><b>More info</b><small>AI used, offline or online, how it is built, repositories, data, who benefits</small></span>${I.chev}</button>
+   <button class="more" id="s-more" type="button" aria-expanded="${S.more}"><span class="ico">${I.info}</span><span><b>More info</b><small>AI used, offline or online, how it is built, repositories, data, who benefits</small></span>${I.chev}</button>
    <div class="mbody" id="s-mbody" ${S.more?'':'hidden'}>
      <div class="fgrid two">${fld('ai','AI used',pickBtn('s-ai','ai',t0.ai,'Not set'),{hint:'feeds the approval lane'})}${fld('runs','Where it runs',pickBtn('s-runs','runs',t0.runs,'Not set'),{hint:'offline or online'})}</div>
      <div class="fgrid two">${fld('html','Fully HTML?',pickBtn('s-html','html',t0.html,'Not set'),{hint:'optional'})}${fld('data','Data sensitivity',pickBtn('s-data','data',t0.data,'Not set'),{hint:'optional'})}</div>
@@ -1096,7 +1375,7 @@ function openIdea(id){
     const r=11,C=2*Math.PI*r;$('#s-req').innerHTML=`<svg class="ring" viewBox="0 0 26 26" style="transform:rotate(-90deg)"><circle cx="13" cy="13" r="${r}" fill="none" stroke="var(--fill)" stroke-width="3"/><circle cx="13" cy="13" r="${r}" fill="none" stroke="${m.length?'var(--orange-c)':'var(--green-c)'}" stroke-width="3" stroke-linecap="round" stroke-dasharray="${C*pct} ${C}"/></svg>${m.length?`${need} of ${REQ.length} required`:'All required filled'}`;
     $('#s-req').title=m.length?'Missing: '+m.join(', '):'';
     REQ.forEach(([k])=>{const f=$(`.fld[data-f="${k}"]`,sh);if(f)f.classList.toggle('need',m.includes(REQ.find(x=>x[0]===k)[1]))});
-    const L=lane(t);$('#s-lane').innerHTML=`<div class="lane ${L.k}">${I.shield}<div><b>${L.n}</b>${L.why.map(esc).join(' · ')}</div></div>`;
+    const L=lane(t);$('#s-lane').innerHTML=`<div class="lane ${L.k}"><span class="ico">${I.shield}</span><div><b>${L.n}</b><small>${L.why.map(esc).join(' · ')}</small></div></div>`;
     $('#w-ai').hidden=!(t.ai>0);$('#w-repo').hidden=!(t.runs==='online'||t.runs==='hybrid');
     $('#s-when').textContent=`Added ${ago(t.created)} · updated ${ago(t.updated)}`};
   const set=p=>{patch(id,p,true);refresh()};
@@ -1145,7 +1424,7 @@ function openSettings(){
        <button class="pick mg2" type="button" data-merge="${x.id}" ${readOnly||L.length<2?'disabled':''}><span>Merge into…</span></button>
        <button class="btn warn sm" type="button" data-del="${x.id}" ${readOnly?'disabled':''}>Remove</button></div>`}).join(''):`<div class="note">No ${LISTS[c].n.toLowerCase()} yet. Add one below, or type one into any idea.</div>`}</div>
      ${readOnly?'':`<form class="sadd" id="set-add"><input class="inp" id="set-new" placeholder="Add a ${LISTS[c].one}" autocomplete="off"><button class="btn" type="submit">${I.plus}Add</button></form>`}</div>`;
-    $('.x',sh).onclick=()=>closeSheet();
+    frameSheet(sh);$('.x',sh).onclick=()=>closeSheet();
     $('#set-tabs').onclick=e=>{const b=e.target.closest('.sw');if(b){setTab=b.dataset.t;draw()}};
     $$('.srow',sh).forEach(r=>{const id=r.dataset.id,x=item(c,id);
       const nm=$('.inp',r);nm.onchange=()=>{const v=nm.value.trim();if(!v){nm.value=x.name;return}const dup=items(c).find(y=>y.id!==id&&y.name.toLowerCase()===v.toLowerCase());if(dup){toast(`“${v}” already exists. Use Merge instead.`);nm.value=x.name;return}store.put(c,{...x,name:v});render();toast('Renamed')};
@@ -1154,6 +1433,59 @@ function openSettings(){
       const dl=$('[data-del]',r);dl.onclick=()=>{const u=usage(c,id);if(u&&!dl.classList.contains('armed')){dl.classList.add('armed');dl.textContent=`From ${u}?`;dl.title=`Removes it from ${u} idea${u===1?'':'s'}`;setTimeout(()=>{if(dl.isConnected){dl.classList.remove('armed');dl.textContent='Remove'}},3000);return}
         replaceRef(c,id,null);store.del(c,id);draw();render()}});
     const f=$('#set-add');if(f)f.onsubmit=e=>{e.preventDefault();const v=$('#set-new').value.trim();if(!v)return;findOrCreate(c,v);draw();$('#set-new').focus()};
+  };
+  draw();sc.hidden=false;document.body.style.overflow='hidden';requestAnimationFrame(()=>requestAnimationFrame(()=>sc.classList.add('on')));
+}
+
+/* ================= profile (you) ================= */
+function openProfile(){
+  if(!CLOUD.me)return;closePop();flushOpen();S.open='__profile';
+  const sh=$('#sheet'),sc=$('#scrim');
+  const draw=()=>{
+    const em=CLOUD.me.email||'',nm=myName(),pid=myPerson(),L=ideas();
+    const pit=pid?L.filter(t=>t.pitchedBy===pid):[],as=pid?L.filter(t=>(t.assignees||[]).includes(pid)):[],sp=pid?L.filter(t=>t.sponsor===pid):[];
+    const role=t=>(t.assignees||[]).includes(pid)?'working on it':t.pitchedBy===pid?'you pitched it':'you sponsor it';
+    const open=[...new Set([...as,...pit,...sp])].filter(t=>t.status!=='done')
+      .sort((a,b)=>(a.status==='doing'?0:1)-(b.status==='doing'?0:1)||String(b.updated||'').localeCompare(String(a.updated||'')));
+    const stat=(n,l)=>`<div class="mystat"><b>${n}</b><span>${l}</span></div>`;
+    sh.innerHTML=`<button class="x" type="button" aria-label="Close">${I.x}</button><div class="set">
+     <div class="prof-head"><span class="av xl" style="background:${myColor()}">${esc(myInitials())}</span><div><h2>${esc(nm||'Your profile')}</h2>
+       <div class="em">${esc(em)} · ${CLOUD.live?'<b>Live now</b>':'Connecting…'}</div></div></div>
+     <div class="sech"><span>What you’re working on</span><span class="ln"></span></div>
+     ${pid?`<div class="mystats">${stat(as.filter(t=>t.status!=='done').length,'Working on')}${stat(pit.length,'Pitched')}${stat(sp.length,'Sponsoring')}</div>
+       ${open.length?`<div class="mylist">${open.slice(0,8).map(t=>`<button class="myrow" type="button" data-pid="${esc(t.id)}"><i style="background:${CMAP[t.status]?CMAP[t.status].c:'var(--gray-c)'}"></i><span>${esc(t.title||'Untitled idea')}</span><small>${CMAP[t.status]?CMAP[t.status].n:''} · ${role(t)}</small></button>`).join('')}</div>`
+         :'<p class="note">Nothing open right now. Ideas you pitch, sponsor or are added to show up here.</p>'}`
+       :'<p class="note">Save your name below to link yourself to the board. Ideas you pitch, sponsor or are added to then show up here.</p>'}
+     <div class="sech"><span>Your details</span><span class="ln"></span></div>
+     <form id="p-det"><div class="fgrid two"><div class="fld"><label for="p-name">Name</label><input class="inp" id="p-name" value="${esc(nm)}" placeholder="How the team knows you" autocomplete="name" required></div>
+       <div class="fld"><label for="p-email">Email <small>ask the board owner to change it</small></label><input class="inp" id="p-email" value="${esc(em)}" readonly></div></div>
+       <div class="prow"><button class="btn" type="submit">Save name</button><span class="pmsg" id="p-msg1" role="status"></span></div></form>
+     <div class="sech"><span>Change password</span><span class="ln"></span></div>
+     <form id="p-pw"><input type="email" value="${esc(em)}" autocomplete="username" hidden><div class="fgrid"><div class="fld"><label for="p-cur">Current password</label><input class="inp" id="p-cur" type="password" autocomplete="current-password" required></div>
+       <div class="fld"><label for="p-new">New password <small>8+ characters</small></label><input class="inp" id="p-new" type="password" autocomplete="new-password" required></div>
+       <div class="fld"><label for="p-new2">Type it again</label><input class="inp" id="p-new2" type="password" autocomplete="new-password" required></div></div>
+       <div class="prow"><button class="btn" type="submit">Change password</button><span class="pmsg" id="p-msg2" role="status"></span></div></form>
+     <div class="sech"><span>Account</span><span class="ln"></span></div>
+     <div class="prow"><button class="btn warn" id="p-out" type="button">Sign out</button><span class="pmsg">You’ll need your email and password to get back in.</span></div></div>`;
+    frameSheet(sh);$('.x',sh).onclick=()=>closeSheet();
+    $$('[data-pid]',sh).forEach(r=>r.onclick=()=>openIdea(r.dataset.pid));
+    $('#p-out').onclick=()=>CLOUD.sb.auth.signOut();
+    const say=(el,t,k)=>{el.textContent=t;el.className='pmsg'+(k?' '+k:'')};
+    $('#p-det').onsubmit=async e=>{e.preventDefault();const m=$('#p-msg1'),name=$('#p-name').value.trim().replace(/\s+/g,' ');
+      if(!name){say(m,'Add your name first.','bad');return}if(name===nm&&pid){say(m,'Already saved.','ok');return}
+      say(m,'Saving…');const p=personFor(name);
+      const {data:d,error}=await CLOUD.sb.auth.updateUser({data:{...meta(),name,person:p.id,onboarded:true}});
+      if(error){say(m,pwError(error),'bad');return}
+      CLOUD.me=d.user;applyPerson(p,name);setMe();draw();say($('#p-msg1'),'Name saved.','ok')};
+    $('#p-pw').onsubmit=async e=>{e.preventDefault();const m=$('#p-msg2'),cur=$('#p-cur').value,np=$('#p-new').value;
+      if(np.length<8){say(m,'Your new password needs 8 or more characters.','bad');return}
+      if(np!==$('#p-new2').value){say(m,'The two new passwords don’t match.','bad');return}
+      say(m,'Checking…');const b=$('button[type=submit]',e.target);b.disabled=true;
+      const {error:e1}=await CLOUD.sb.auth.signInWithPassword({email:em,password:cur});
+      if(e1){b.disabled=false;say(m,/invalid/i.test(e1.message)?'Your current password isn’t right.':e1.message,'bad');return}
+      const {error:e2}=await CLOUD.sb.auth.updateUser({password:np});b.disabled=false;
+      if(e2){say(m,pwError(e2),'bad');return}
+      e.target.reset();say(m,'Password changed. Use the new one next time you sign in.','ok')};
   };
   draw();sc.hidden=false;document.body.style.overflow='hidden';requestAnimationFrame(()=>requestAnimationFrame(()=>sc.classList.add('on')));
 }
@@ -1222,6 +1554,9 @@ setView(S.view);
 /* an empty new idea that is closed untouched is removed */
 const _close=closeSheet;
 closeSheet=function(skip){const id=S.open;_close(skip);const t=id&&byId(id);if(t&&!t.title&&!t.summary&&!t.pitchedBy&&!has(t.impact))store.del('tasks',id),render()};
+/* presence follows what you have open, and busy tags survive every redraw */
+const _openIdea=openIdea;openIdea=function(id){_openIdea(id);frameSheet($('#sheet'));presenceSync();decorateBusy();drawGal(true)};
+const _renderStage=renderStage;renderStage=function(){_renderStage();decorateBusy();presenceSync();drawGal()};
 
 /* theme */
 const themeBtn=$('#theme');
